@@ -15,7 +15,7 @@ import { useActionState, useState } from 'react';
 export default function Form({ customers }: { customers: CustomerField[] }) {
   const initialState: State = { message: null, errors: {} };
   const [state, formAction] = useActionState(createInvoice, initialState)
-  const [selectedCustomerId, setSelectedCustomerId] = useState<string | null>(null);
+  const [selectedCustomerId, setSelectedCustomerId] = useState<string>('');
 
   console.log(`Selected customer ID value: ${selectedCustomerId}`);
 
@@ -24,7 +24,7 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
     const value = event.target.value;
     console.log(`Selected customer ID: ${value}`);
 
-    setSelectedCustomerId(value === '' ? null : value);
+    setSelectedCustomerId(value);
   }
 
   return (
@@ -41,14 +41,14 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
               name="customerId"
               className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
               aria-describedby="customer-error"
-              defaultValue=''
+              value={selectedCustomerId}
               onChange={handleSelectCustomer}
             >
               <option value="" disabled>
                 Select a customer
               </option>
               {customers.map((customer) => (
-                <option key={customer.id} value={customer.id} selected={selectedCustomerId === customer.id}>
+                <option key={customer.id} value={customer.id}>
                   {customer.name}
                 </option>
               ))}
